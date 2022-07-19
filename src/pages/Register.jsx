@@ -6,7 +6,6 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import MyInput from '../components/UI/MyInput';
 import MyButton from '../components/UI/MyButton';
 import { setUser } from '../redux/user/slice';
-import { setUserToLs } from '../utils/setUserToLs';
 
 const Register = () => {
     const dispatch = useDispatch();
@@ -29,7 +28,6 @@ const Register = () => {
             dispatch(setUser(user));
             setEmail('');
             setPassword('');
-            setUserToLs(user);
             navigate('/', { replace: true });
         } catch (error) {
             const errorCode = error.code;

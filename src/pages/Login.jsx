@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux/es/hooks/useDispatch';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { setUserToLs } from '../utils/setUserToLs';
 
 import MyButton from '../components/UI/MyButton';
 import MyInput from '../components/UI/MyInput';
@@ -28,7 +27,6 @@ const Login = () => {
             dispatch(setUser(user));
             setEmail('');
             setPassword('');
-            setUserToLs(user);
             navigate('/', { replace: true });
         } catch (error) {
             const errorCode = error.code;

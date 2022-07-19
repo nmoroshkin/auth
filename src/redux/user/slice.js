@@ -1,14 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getUserFromLs } from '../../utils/getUserFromLs';
-
-const { isAuth, email, token, id, password } = getUserFromLs();
 
 const initialState = {
-    isAuth,
-    email,
-    token,
-    id,
-    password,
+    isAuth: '',
+    email: '',
+    token: '',
+    id: '',
+    password: '',
 };
 
 const userSlice = createSlice({
