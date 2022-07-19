@@ -9,12 +9,3 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
-
-.post__wrapper {
-    margin-top: 10px;
-    border: 2px solid black;
-    padding: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}

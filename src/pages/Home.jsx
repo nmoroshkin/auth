@@ -7,67 +7,64 @@ import { userSelect } from '../redux/user/selector';
 
 import MyInput from '../components/UI/MyInput';
 import MyButton from '../components/UI/MyButton';
-import PostList from '../components/PostList';
+import TodoList from '../components/TodoList';
 
-import { deletePosts, setPost } from '../redux/posts/slice';
+import { deleteTodos, setTodo } from '../redux/todos/slice';
 
-import { fetchPosts } from '../redux/posts/slice';
-import { postSelect } from '../redux/posts/selector';
+import { fetchTodos } from '../redux/todos/slice';
+import { todoSelect } from '../redux/todos/selector';
 
 import { db } from '../firebase';
 import { removeUser } from '../redux/user/slice';
 
 const Home = () => {
     const dispatch = useDispatch();
-    const [title, setTitle] = React.useState('');
-    const [body, setBody] = React.useState('');
+    const [todoBody, setTodoBody] = React.useState('');
     const { isAuth, email } = useSelector(userSelect);
-    const { posts } = useSelector(postSelect);
+    const { todos } = useSelector(todoSelect);
 
     React.useEffect(() => {
-        dispatch(fetchPosts(email));
+        dispatch(fetchTodos(email));
     }, []);
 
     const handleLogout = () => {
         dispatch(removeUser());
-        dispatch(deletePosts());
+        dispatch(deleteTodos());
         localStorage.removeItem('user');
     };
 
     const handleClick = async () => {
-        const post = {
+        const todo = {
             id: Date.now(),
-            title,
-            body,
+            todoBody,
+            status: false,
         };
-        setTitle('');
-        setBody('');
+        setTodoBody('');
         try {
             const docRef = await addDoc(collection(db, email), {
-                ...post,
+                ...todo,
             });
-            dispatch(setPost({ ...post, docId: docRef.id }));
+            dispatch(setTodo({ ...todo, docId: docRef.id }));
         } catch (e) {
             console.error('Error adding document: ', e);
         }
     };
 
     if (!isAuth) {
-        return <Navigate to="/login" replace={true} />;
+        return <Navigate to="/" replace={true} />;
     }
 
     return (
         <div>
             <h1>Home</h1>
             <button onClick={handleLogout}>logout</button>
-            <MyInput placeholder="title" value={title} changeValue={(value) => setTitle(value)} />
             <MyInput
-                placeholder="description"
-                value={body}
-                changeValue={(value) => setBody(value)}
+                placeholder="todo..."
+                value={todoBody}
+                changeValue={(value) => setTodoBody(value)}
             />
             <MyButton handleClick={handleClick}>add</MyButton>
-            <PostList posts={posts} />
+            <TodoList todos={todos} />
         </div>
     );
 };

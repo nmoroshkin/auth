@@ -12,11 +12,11 @@ import {
 import storage from 'redux-persist/lib/storage';
 
 import user from './user/slice';
-import posts from './posts/slice';
+import todos from './todos/slice';
 
 const rootReducer = combineReducers({
     user,
-    posts,
+    todos,
 });
 
 const persistConfig = {
