@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkTodo, deleteTodo } from '../redux/todos/slice';
-import { doc, deleteDoc } from 'firebase/firestore';
+import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
 
 import { db } from '../firebase';
 
@@ -18,15 +18,19 @@ const TodoItem = React.memo(({ id, todoBody, status, docId }) => {
         await deleteDoc(doc(db, email, docId));
     };
 
-    const handleCheck = () => {
+    const handleCheck = async () => {
         const todo = { id, todoBody, status, docId };
+        await updateDoc(doc(db, email, docId), {
+            docId,
+            status: !status,
+        });
         dispatch(checkTodo(todo));
     };
 
     return (
         <div>
             <div>
-                <MyCheckBox onCheck={handleCheck} />
+                <MyCheckBox status={status} onCheck={handleCheck} />
                 <span>{todoBody}</span>
             </div>
             <div>
