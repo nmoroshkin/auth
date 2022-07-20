@@ -5,8 +5,7 @@ import { collection, addDoc } from 'firebase/firestore';
 
 import { userSelect } from '../redux/user/selector';
 
-import MyInput from '../components/UI/MyInput';
-import MyButton from '../components/UI/MyButton';
+import { MyButton, MyInput } from '../components/UI';
 import TodoList from '../components/TodoList';
 
 import { deleteTodos, setTodo } from '../redux/todos/slice';
@@ -20,7 +19,7 @@ import { removeUser } from '../redux/user/slice';
 const Home = () => {
     const dispatch = useDispatch();
     const [todoBody, setTodoBody] = React.useState('');
-    const { isAuth, email } = useSelector(userSelect);
+    const { isAuth, email, image, username } = useSelector(userSelect);
     const { todos } = useSelector(todoSelect);
 
     React.useEffect(() => {
@@ -57,6 +56,8 @@ const Home = () => {
     return (
         <div>
             <h1>Home</h1>
+            <span>{username}</span>
+            <img src={image} alt="" />
             <button onClick={handleLogout}>logout</button>
             <MyInput
                 placeholder="todo..."

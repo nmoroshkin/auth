@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux/es/hooks/useDispatch';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 
-import MyButton from '../components/UI/MyButton';
-import MyInput from '../components/UI/MyInput';
+import { MyButton, MyInput } from '../components/UI';
 import { setUser } from '../redux/user/slice';
 
 const Login = () => {
@@ -12,19 +11,22 @@ const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+
     const handleClick = async () => {
         const auth = getAuth();
         try {
             const res = await signInWithEmailAndPassword(auth, email, password);
-            const resUser = res.user;
-            const user = {
-                email: resUser.email,
-                token: resUser.accessToken,
-                id: resUser.uid,
-                password: password,
-                isAuth: true,
-            };
-            dispatch(setUser(user));
+            onAuthStateChanged(auth, (user) => {
+                const _user = {
+                    email: user.email,
+                    token: user.accessToken,
+                    id: user.uid,
+                    image: 'https://avatars.mds.yandex.net/i?id=c8a94ab3383388ad27adebfaf01c8f18-3471343-images-thumbs&n=13&exp=1',
+                    isAuth: true,
+                    username: user.displayName,
+                };
+                dispatch(setUser(_user));
+            });
             setEmail('');
             setPassword('');
             navigate('/', { replace: true });

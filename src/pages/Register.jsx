@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux/es/exports';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
-import MyInput from '../components/UI/MyInput';
-import MyButton from '../components/UI/MyButton';
+import { MyButton, MyInput } from '../components/UI';
 import { setUser } from '../redux/user/slice';
 
 const Register = () => {
@@ -12,6 +11,7 @@ const Register = () => {
     const navigate = useNavigate();
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [username, setUsername] = React.useState('');
 
     const handleClick = async () => {
         const auth = getAuth();
@@ -22,12 +22,14 @@ const Register = () => {
                 email: resUser.email,
                 token: resUser.accessToken,
                 id: resUser.uid,
-                password: password,
+                image: 'https://avatars.mds.yandex.net/i?id=c8a94ab3383388ad27adebfaf01c8f18-3471343-images-thumbs&n=13&exp=1',
                 isAuth: true,
+                username,
             };
             dispatch(setUser(user));
             setEmail('');
             setPassword('');
+            updateProfile(auth.currentUser, { displayName: username });
             navigate('/', { replace: true });
         } catch (error) {
             const errorCode = error.code;
@@ -40,6 +42,12 @@ const Register = () => {
     return (
         <div>
             <h1>Register</h1>
+            <MyInput
+                type="text"
+                placeholder="username"
+                value={username}
+                changeValue={(value) => setUsername(value)}
+            />
             <MyInput
                 type="text"
                 placeholder="email"

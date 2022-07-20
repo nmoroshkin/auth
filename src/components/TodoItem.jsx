@@ -5,9 +5,8 @@ import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
 
 import { db } from '../firebase';
 
-import MyButton from './UI/MyButton';
+import { MyButton, MyCheckBox } from './UI';
 import { userSelect } from '../redux/user/selector';
-import MyCheckBox from './UI/MyCheckBox';
 
 const TodoItem = React.memo(({ id, todoBody, status, docId }) => {
     const dispatch = useDispatch();
