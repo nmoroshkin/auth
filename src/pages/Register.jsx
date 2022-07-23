@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux/es/exports';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
 import { MyButton, MyInput } from '../components/UI';
+
 import { setUser } from '../redux/user/slice';
 
 const Register = () => {
@@ -40,12 +41,12 @@ const Register = () => {
     };
 
     return (
-        <div>
+        <div className="auth">
             <h1>Register</h1>
             <MyInput
                 type="text"
                 placeholder="username"
-                value={username}
+                value={username.trim()}
                 changeValue={(value) => setUsername(value)}
             />
             <MyInput
@@ -57,7 +58,7 @@ const Register = () => {
             <MyInput
                 type="password"
                 placeholder="password"
-                value={password}
+                value={password.trim()}
                 changeValue={(value) => setPassword(value)}
             />
             <MyButton handleClick={handleClick}>SignIn</MyButton>

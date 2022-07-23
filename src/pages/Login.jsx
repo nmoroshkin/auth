@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux/es/hooks/useDispatch';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 
 import { MyButton, MyInput } from '../components/UI';
+
 import { setUser } from '../redux/user/slice';
 
 const Login = () => {
@@ -15,7 +16,7 @@ const Login = () => {
     const handleClick = async () => {
         const auth = getAuth();
         try {
-            const res = await signInWithEmailAndPassword(auth, email, password);
+            await signInWithEmailAndPassword(auth, email, password);
             onAuthStateChanged(auth, (user) => {
                 const _user = {
                     email: user.email,
@@ -39,18 +40,18 @@ const Login = () => {
     };
 
     return (
-        <div>
+        <div className="auth">
             <h1>Login</h1>
             <MyInput
                 type="text"
                 placeholder="email"
-                value={email}
+                value={email.trim()}
                 changeValue={(value) => setEmail(value)}
             />
             <MyInput
                 type="password"
                 placeholder="password"
-                value={password}
+                value={password.trim()}
                 changeValue={(value) => setPassword(value)}
             />
             <MyButton handleClick={handleClick}>LogIn</MyButton>

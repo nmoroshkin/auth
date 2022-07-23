@@ -1,20 +1,17 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { userSelect } from '../redux/user/selector';
 import { useDispatch, useSelector } from 'react-redux';
 import { collection, addDoc } from 'firebase/firestore';
 
-import { userSelect } from '../redux/user/selector';
-
-import { MyButton, MyInput } from '../components/UI';
 import TodoList from '../components/TodoList';
-
-import { deleteTodos, setTodo } from '../redux/todos/slice';
-
-import { fetchTodos } from '../redux/todos/slice';
-import { todoSelect } from '../redux/todos/selector';
+import { MyButton, MyInput } from '../components/UI';
 
 import { db } from '../firebase';
 import { removeUser } from '../redux/user/slice';
+import { fetchTodos } from '../redux/todos/slice';
+import { todoSelect } from '../redux/todos/selector';
+import { deleteTodos, setTodo } from '../redux/todos/slice';
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -54,14 +51,14 @@ const Home = () => {
     }
 
     return (
-        <div>
+        <div className="main">
             <h1>Home</h1>
             <span>{username}</span>
             <img src={image} alt="" />
             <button onClick={handleLogout}>logout</button>
             <MyInput
                 placeholder="todo..."
-                value={todoBody}
+                value={todoBody.trim()}
                 changeValue={(value) => setTodoBody(value)}
             />
             <MyButton handleClick={handleClick}>add</MyButton>
