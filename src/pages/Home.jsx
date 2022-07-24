@@ -4,6 +4,7 @@ import { userSelect } from '../redux/user/selector';
 import { useDispatch, useSelector } from 'react-redux';
 import { collection, addDoc } from 'firebase/firestore';
 
+import Header from '../components/Header';
 import TodoList from '../components/TodoList';
 import { MyButton, MyInput } from '../components/UI';
 
@@ -22,12 +23,6 @@ const Home = () => {
     React.useEffect(() => {
         dispatch(fetchTodos(email));
     }, []);
-
-    const handleLogout = () => {
-        dispatch(removeUser());
-        dispatch(deleteTodos());
-        localStorage.removeItem('user');
-    };
 
     const handleClick = async () => {
         const todo = {
@@ -51,19 +46,18 @@ const Home = () => {
     }
 
     return (
-        <div className="main">
-            <h1>Home</h1>
-            <span>{username}</span>
-            <img src={image} alt="" />
-            <button onClick={handleLogout}>logout</button>
-            <MyInput
-                placeholder="todo..."
-                value={todoBody.trim()}
-                changeValue={(value) => setTodoBody(value)}
-            />
-            <MyButton handleClick={handleClick}>add</MyButton>
-            <TodoList todos={todos} />
-        </div>
+        <>
+            <div className="main">
+                <h1>Home</h1>
+                <MyInput
+                    placeholder="todo..."
+                    value={todoBody.trim()}
+                    changeValue={(value) => setTodoBody(value)}
+                />
+                <MyButton handleClick={handleClick}>add</MyButton>
+                <TodoList todos={todos} />
+            </div>
+        </>
     );
 };
 

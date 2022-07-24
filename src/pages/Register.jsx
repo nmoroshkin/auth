@@ -1,14 +1,19 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux/es/exports';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { Container } from '@mui/material';
 
 import { MyButton, MyInput } from '../components/UI';
 
+import { userSelect } from '../redux/user/selector';
+import githubAuth from '../utils/githubAuth';
+import googleAuth from '../utils/googleAuth';
 import { setUser } from '../redux/user/slice';
 
 const Register = () => {
     const dispatch = useDispatch();
+    const { isAuth } = useSelector(userSelect);
     const navigate = useNavigate();
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -40,8 +45,22 @@ const Register = () => {
         }
     };
 
+    if (isAuth) {
+        return <Navigate to="/home" replace={true} />;
+    }
+
+    const handleClickGoogle = async () => {
+        const user = await googleAuth();
+        dispatch(setUser(user));
+    };
+
+    const handleClickGithub = async () => {
+        const user = await githubAuth();
+        dispatch(setUser(user));
+    };
+
     return (
-        <div className="auth">
+        <Container className="auth">
             <h1>Register</h1>
             <MyInput
                 type="text"
@@ -61,11 +80,18 @@ const Register = () => {
                 value={password.trim()}
                 changeValue={(value) => setPassword(value)}
             />
-            <MyButton handleClick={handleClick}>SignIn</MyButton>
+            <MyButton handleClick={handleClick}>SignUp</MyButton>
+            <div className="auth__btns">
+                <MyButton handleClick={handleClickGoogle}>Continue with google</MyButton>
+                <MyButton handleClick={handleClickGithub}>Continue with GitHub</MyButton>
+            </div>
             <p>
-                you already have an account? <Link to="/login">LogIn</Link>
+                you already have an account?{' '}
+                <Link to="/login" className="font-effect-neon">
+                    login
+                </Link>
             </p>
-        </div>
+        </Container>
     );
 };
 
