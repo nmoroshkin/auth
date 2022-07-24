@@ -23,7 +23,15 @@ const todoSlice = createSlice({
         deleteTodos(state) {
             state.todos = [];
         },
-        changeTodo(state, action) {},
+        changeTodo(state, action) {
+            const findIndex = state.todos.findIndex((obj) => obj.id === action.payload.id);
+            state.todos = state.todos.map((task) => {
+                if (findIndex >= 0) {
+                    state.todos[findIndex].todoBody = action.payload.changeValue;
+                }
+                return task;
+            });
+        },
         checkTodo(state, action) {
             const findIndex = state.todos.findIndex((obj) => obj.id === action.payload.id);
             state.todos = state.todos.map((todo) => {

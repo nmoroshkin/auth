@@ -4,20 +4,19 @@ import { userSelect } from '../redux/user/selector';
 import { useDispatch, useSelector } from 'react-redux';
 import { collection, addDoc } from 'firebase/firestore';
 
-import Header from '../components/Header';
 import TodoList from '../components/TodoList';
 import { MyButton, MyInput } from '../components/UI';
 
 import { db } from '../firebase';
-import { removeUser } from '../redux/user/slice';
 import { fetchTodos } from '../redux/todos/slice';
 import { todoSelect } from '../redux/todos/selector';
-import { deleteTodos, setTodo } from '../redux/todos/slice';
+import { setTodo } from '../redux/todos/slice';
+import { Container } from '@mui/material';
 
 const Home = () => {
     const dispatch = useDispatch();
     const [todoBody, setTodoBody] = React.useState('');
-    const { isAuth, email, image, username } = useSelector(userSelect);
+    const { isAuth, email } = useSelector(userSelect);
     const { todos } = useSelector(todoSelect);
 
     React.useEffect(() => {
@@ -46,18 +45,29 @@ const Home = () => {
     }
 
     return (
-        <>
-            <div className="main">
-                <h1>Home</h1>
-                <MyInput
-                    placeholder="todo..."
-                    value={todoBody.trim()}
-                    changeValue={(value) => setTodoBody(value)}
-                />
-                <MyButton handleClick={handleClick}>add</MyButton>
+        <Container
+            maxWidth="sm"
+            sx={{
+                pt: '50px',
+                height: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}
+        >
+            <div className="container">
+                <div className="inputTodo">
+                    <MyInput
+                        placeholder="todo..."
+                        value={todoBody.trim()}
+                        changeValue={(value) => setTodoBody(value)}
+                        sx={{ width: '70%' }}
+                    />
+                    <MyButton handleClick={handleClick}>add</MyButton>
+                </div>
                 <TodoList todos={todos} />
             </div>
-        </>
+        </Container>
     );
 };
 

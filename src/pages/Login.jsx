@@ -2,7 +2,12 @@ import React from 'react';
 import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-import { Container } from '@mui/material';
+import { Container, Divider, Snackbar } from '@mui/material';
+
+import MuiAlert from '@mui/material/Alert';
+
+import GitHubIcon from '@mui/icons-material/GitHub';
+import GoogleIcon from '@mui/icons-material/Google';
 
 import { MyButton, MyInput } from '../components/UI';
 
@@ -11,7 +16,14 @@ import googleAuth from '../utils/googleAuth';
 import { setUser } from '../redux/user/slice';
 import { userSelect } from '../redux/user/selector';
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 const Login = () => {
+    const [open, setOpen] = React.useState(false);
+    const [errmsg, setErrmsg] = React.useState('');
+
     const dispatch = useDispatch();
     const { isAuth } = useSelector(userSelect);
     const navigate = useNavigate();
@@ -38,9 +50,8 @@ const Login = () => {
             navigate('/', { replace: true });
         } catch (error) {
             const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode);
-            console.log(errorMessage);
+            setOpen(true);
+            setErrmsg(errorCode);
         }
     };
 
@@ -51,6 +62,7 @@ const Login = () => {
 
     const handleClickGithub = async () => {
         const user = await githubAuth();
+        console.log(user);
         dispatch(setUser(user));
     };
 
@@ -58,25 +70,42 @@ const Login = () => {
         return <Navigate to="/home" replace={true} />;
     }
 
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
     return (
-        <Container className="auth">
+        <Container maxWidth="sm" className="auth">
             <h1>Login</h1>
-            <MyInput
-                type="text"
-                placeholder="email"
-                value={email.trim()}
-                changeValue={(value) => setEmail(value)}
-            />
-            <MyInput
-                type="password"
-                placeholder="password"
-                value={password.trim()}
-                changeValue={(value) => setPassword(value)}
-            />
-            <MyButton handleClick={handleClick}>LogIn</MyButton>
-            <div className="auth__btns">
-                <MyButton handleClick={handleClickGoogle}>Continue with google</MyButton>
-                <MyButton handleClick={handleClickGithub}>Continue with GitHub</MyButton>
+            <div className="auth__body">
+                <MyInput
+                    type="text"
+                    placeholder="email"
+                    value={email.trim()}
+                    changeValue={(value) => setEmail(value)}
+                />
+                <MyInput
+                    type="password"
+                    placeholder="password"
+                    value={password.trim()}
+                    changeValue={(value) => setPassword(value)}
+                />
+                <MyButton handleClick={handleClick}>LogIn</MyButton>
+                <Divider sx={{ mb: '20px' }} />
+                <div className="auth__btns">
+                    <MyButton handleClick={handleClickGoogle}>
+                        Continue with <GoogleIcon sx={{ fontSize: '1.8rem', ml: '10px' }} />
+                    </MyButton>
+                    <Divider sx={{ mb: '20px' }} />
+                    <MyButton handleClick={handleClickGithub}>
+                        Continue with
+                        <GitHubIcon sx={{ fontSize: '1.8rem', ml: '10px' }} />
+                    </MyButton>
+                </div>
             </div>
             <p>
                 don't have an account yet?{' '}
@@ -84,6 +113,16 @@ const Login = () => {
                     register
                 </Link>
             </p>
+            <Snackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                open={open}
+                autoHideDuration={1000}
+                onClose={handleClose}
+            >
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                    {errmsg}
+                </Alert>
+            </Snackbar>
         </Container>
     );
 };

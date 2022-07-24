@@ -8,6 +8,10 @@ import { userSelect } from '../redux/user/selector';
 import plank from '../assets/img/plank.jpg';
 
 const Welcome = () => {
+    const { isAuth } = useSelector(userSelect);
+    if (isAuth) {
+        return <Navigate to="/home" replace={true} />;
+    }
     return (
         <>
             <Container>

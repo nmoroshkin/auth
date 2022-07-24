@@ -20,10 +20,12 @@ const Header = () => {
 
     return (
         <AppBar position="static">
-            <Toolbar>
+            <Toolbar className="appbar">
                 {isAuth ? (
                     <>
-                        <img src={image} />
+                        <div className="appbar__img">
+                            <img src={image} />
+                        </div>
                         <Typography
                             variant="h4"
                             component="div"
@@ -32,6 +34,7 @@ const Header = () => {
                                 color: '#e056fd',
                                 fontStyle: 'italic',
                                 alignItems: 'center',
+                                fontSize: '1.5rem',
                             }}
                         >
                             {username}
