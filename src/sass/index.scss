@@ -4,10 +4,6 @@ body {
     height: 100%;
 }
 
-input {
-    color: #ff9ff3;
-}
-
 body {
     margin: 0;
     padding: 0;
@@ -48,6 +44,9 @@ code {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    & input {
+        color: #ff9ff3;
+    }
 }
 
 .todoList {
