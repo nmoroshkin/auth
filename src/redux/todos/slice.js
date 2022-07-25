@@ -3,6 +3,7 @@ import { getTodosFromDB } from '../../utils/getTodosFromDB';
 
 const initialState = {
     todos: [],
+    status: 'loading',
 };
 
 export const fetchTodos = createAsyncThunk('todos/fetchTodos', async (email) => {
@@ -43,8 +44,17 @@ const todoSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
+        builder.addCase(fetchTodos.pending, (state) => {
+            state.todos = [];
+            state.status = 'loading';
+        });
         builder.addCase(fetchTodos.fulfilled, (state, action) => {
             state.todos = action.payload;
+            state.status = 'succeed';
+        });
+        builder.addCase(fetchTodos.rejected, (state) => {
+            state.todos = [];
+            state.status = 'failed';
         });
     },
 });

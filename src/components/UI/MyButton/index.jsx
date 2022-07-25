@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 const MyButton = ({ handleClick, children }) => {
     return (
         <Button
-            onClick={() => handleClick()}
+            onClick={(e) => handleClick(e)}
             color="button"
             variant="outlined"
             sx={{ textTransform: 'none', fontSize: '1.1rem' }}

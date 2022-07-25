@@ -12,31 +12,35 @@ import { fetchTodos } from '../redux/todos/slice';
 import { todoSelect } from '../redux/todos/selector';
 import { setTodo } from '../redux/todos/slice';
 import { Container } from '@mui/material';
+import Loader from '../components/Loader';
 
 const Home = () => {
     const dispatch = useDispatch();
     const [todoBody, setTodoBody] = React.useState('');
     const { isAuth, email } = useSelector(userSelect);
     const { todos } = useSelector(todoSelect);
+    const status = useSelector(({ todos }) => todos.status);
 
     React.useEffect(() => {
         dispatch(fetchTodos(email));
-    }, []);
+    }, [dispatch, email]);
 
-    const handleClick = async () => {
-        const todo = {
-            id: Date.now(),
-            todoBody,
-            status: false,
-        };
-        setTodoBody('');
-        try {
-            const docRef = await addDoc(collection(db, email), {
-                ...todo,
-            });
-            dispatch(setTodo({ ...todo, docId: docRef.id }));
-        } catch (e) {
-            console.error('Error adding document: ', e);
+    const handleEnterTodo = async (e) => {
+        if ((e.key === 'Enter' || e.target.tagName === 'BUTTON') && todoBody !== '') {
+            const todo = {
+                id: Date.now(),
+                todoBody,
+                status: false,
+            };
+            setTodoBody('');
+            try {
+                const docRef = await addDoc(collection(db, email), {
+                    ...todo,
+                });
+                dispatch(setTodo({ ...todo, docId: docRef.id }));
+            } catch (e) {
+                console.error('Error adding document: ', e);
+            }
         }
     };
 
@@ -58,14 +62,15 @@ const Home = () => {
             <div className="container">
                 <div className="inputTodo">
                     <MyInput
+                        onKeyDown={handleEnterTodo}
                         placeholder="todo..."
                         value={todoBody.trim()}
                         changeValue={(value) => setTodoBody(value)}
                         sx={{ width: '70%' }}
                     />
-                    <MyButton handleClick={handleClick}>add</MyButton>
+                    <MyButton handleClick={handleEnterTodo}>add</MyButton>
                 </div>
-                <TodoList todos={todos} />
+                {status === 'succeed' ? <TodoList todos={todos} /> : <Loader />}
             </div>
         </Container>
     );

@@ -8,7 +8,7 @@ const MyCheckBox = ({ onCheck, status }) => {
             onChange={() => onCheck()}
             sx={{ '& .MuiSvgIcon-root': { fontSize: 22 } }}
             style={{
-                color: '#ff9ff3',
+                color: '#e056fd',
             }}
         />
     );

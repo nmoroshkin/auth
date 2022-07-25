@@ -63,8 +63,8 @@ code {
         display: inline-flex;
         align-items: center;
 
-        & input {
-            color: #ff9ff3;
+        & span {
+            font-size: 1.2rem;
         }
 
         & span:last-child {
@@ -73,7 +73,7 @@ code {
             &.checked {
                 text-decoration: line-through;
                 opacity: 0.6;
-                color: #ff9ff3;
+                color: #e056fd;
             }
         }
     }

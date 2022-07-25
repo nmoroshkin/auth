@@ -5,9 +5,9 @@ import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
 
 import { db } from '../firebase';
 
-import { MyButton, MyCheckBox } from './UI';
+import { MyCheckBox, MyInput } from './UI';
 import { userSelect } from '../redux/user/selector';
-import { ListItem, ListItemButton, TextField } from '@mui/material';
+import { ListItem, ListItemButton } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { changeTodo } from '../redux/todos/slice';
 
@@ -70,14 +70,11 @@ const TodoItem = React.memo(({ id, todoBody, status, docId }) => {
                             {todoBody}
                         </span>
                     ) : (
-                        <TextField
+                        <MyInput
                             autoFocus
-                            variant="filled"
                             value={changeValue}
-                            onChange={(e) => setChangeValue(e.target.value)}
+                            changeValue={(value) => setChangeValue(value)}
                             onKeyDown={saveChanges}
-                            size="small"
-                            InputLabelProps={{ className: 'textfield__label' }}
                         />
                     )}
                 </div>
@@ -86,7 +83,7 @@ const TodoItem = React.memo(({ id, todoBody, status, docId }) => {
                         className="delete__btn"
                         onClick={handleClick}
                         style={{
-                            color: '#ff9ff3',
+                            color: '#e056fd',
                         }}
                     />
                 </div>

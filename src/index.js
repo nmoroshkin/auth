@@ -15,8 +15,7 @@ import './sass/index.scss';
 const theme = createTheme({
     palette: {
         primary: {
-            // main: '#353b48',
-            main: '#222f3e',
+            main: '#2f3640',
         },
         button: {
             main: '#e056fd',
