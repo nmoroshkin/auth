@@ -10,8 +10,6 @@ const MyInput = ({ changeValue, placeholder, ...props }) => {
             variant="standard"
             sx={{ mb: '20px' }}
             size="small"
-            // InputProps={{ className: 'textfield__input' }}
-            // InputLabelProps={{ className: 'textfield__label' }}
             {...props}
         />
     );
