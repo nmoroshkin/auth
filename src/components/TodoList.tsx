@@ -1,8 +1,13 @@
 import React from 'react';
+import { Todo } from '../redux/todos/slice';
 
 import TodoItem from './TodoItem';
 
-const TodoList = ({ todos }) => {
+interface TodoListProps {
+    todos: Todo[];
+}
+
+const TodoList: React.FC<TodoListProps> = ({ todos }) => {
     return (
         <div className="todoList">
             {!!todos.length ? (

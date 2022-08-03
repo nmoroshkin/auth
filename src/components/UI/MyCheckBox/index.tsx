@@ -1,7 +1,12 @@
 import React from 'react';
 import { Checkbox } from '@mui/material';
 
-const MyCheckBox = ({ onCheck, status }) => {
+interface MyCheckBoxProps {
+    status: boolean;
+    onCheck: () => void;
+}
+
+const MyCheckBox: React.FC<MyCheckBoxProps> = ({ onCheck, status }) => {
     return (
         <Checkbox
             checked={status}

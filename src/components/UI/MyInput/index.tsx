@@ -1,17 +1,25 @@
 import { TextField } from '@mui/material';
 import React from 'react';
 
-const MyInput = ({ changeValue, placeholder, ...props }) => {
+interface MyInputProps {
+    placeholder?: string;
+    changeValue: (text: string) => void;
+    type?: string;
+    value?: string;
+    sx?: any;
+    onKeyDown?: any;
+    autoFocus?: boolean;
+}
+
+const MyInput: React.FC<MyInputProps> = ({ changeValue, placeholder, ...props }) => {
     return (
         <TextField
-            color="button"
+            color="secondary"
             onChange={(e) => changeValue(e.target.value)}
             label={placeholder}
             variant="standard"
             sx={{ mb: '20px' }}
             size="small"
-            // InputProps={{ className: 'textfield__input' }}
-            // InputLabelProps={{ className: 'textfield__label' }}
             {...props}
         />
     );

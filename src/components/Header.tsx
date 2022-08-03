@@ -1,16 +1,14 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { AppBar, Button, Toolbar, Typography } from '@mui/material';
 import { MyButton } from './UI';
-import { userSelect } from '../redux/user/selector';
 import { removeUser } from '../redux/user/slice';
 import { deleteTodos } from '../redux/todos/slice';
+import { AppBar, Button, Toolbar, Typography } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 
 const Header = () => {
-    const dispatch = useDispatch();
-    const { isAuth, username, image } = useSelector(userSelect);
+    const dispatch = useAppDispatch();
+    const { isAuth, username, image } = useAppSelector(({ user }) => user);
 
     const handleLogout = () => {
         dispatch(removeUser());
@@ -24,7 +22,7 @@ const Header = () => {
                 {isAuth ? (
                     <>
                         <div className="appbar__img">
-                            <img src={image} />
+                            <img src={image} alt="smth" />
                         </div>
                         <Typography
                             variant="h4"
@@ -54,7 +52,7 @@ const Header = () => {
                         </Typography>
                         <Link to="/login">
                             <Button
-                                color="button"
+                                color="secondary"
                                 variant="outlined"
                                 sx={{ textTransform: 'none', fontSize: '1.1rem', mr: '10px' }}
                                 size="medium"
@@ -64,7 +62,7 @@ const Header = () => {
                         </Link>
                         <Link to="/register">
                             <Button
-                                color="button"
+                                color="secondary"
                                 variant="outlined"
                                 sx={{ textTransform: 'none', fontSize: '1.1rem' }}
                                 size="medium"

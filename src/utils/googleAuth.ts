@@ -1,12 +1,14 @@
+import { OAuthCredential } from './githubAuth';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { IUser } from '../redux/user/slice';
 
-const googleAuth = async () => {
+const googleAuth: () => Promise<IUser> | any = async () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
     try {
         const res = await signInWithPopup(auth, provider);
-        const user = await res.user;
-        return {
+        const user: OAuthCredential | any = await res.user;
+        const _user: IUser = {
             email: user.email,
             username: user.displayName,
             image: user.photoURL,
@@ -14,15 +16,12 @@ const googleAuth = async () => {
             id: user.uid,
             isAuth: true,
         };
+        return _user;
     } catch (error) {
-        const errorCode = error.code;
-        console.log(errorCode);
-        const errorMessage = error.message;
-        console.log(errorMessage);
-        const email = error.customData.email;
-        console.log(email);
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log(credential);
+        if (error instanceof Error) {
+            const errorMessage = error.message;
+            console.log(errorMessage);
+        }
     }
 };
 

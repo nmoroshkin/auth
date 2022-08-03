@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link, useNavigate, Navigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { Container, Divider, Snackbar } from '@mui/material';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
 import MuiAlert from '@mui/material/Alert';
 
@@ -11,12 +10,12 @@ import GoogleIcon from '@mui/icons-material/Google';
 
 import { MyButton, MyInput } from '../components/UI';
 
-import { userSelect } from '../redux/user/selector';
 import githubAuth from '../utils/githubAuth';
 import googleAuth from '../utils/googleAuth';
-import { setUser } from '../redux/user/slice';
+import { IUser, setUser } from '../redux/user/slice';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 
-const Alert = React.forwardRef(function Alert(props, ref) {
+const Alert: any = React.forwardRef(function Alert(props, ref: any) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
@@ -24,19 +23,19 @@ const Register = () => {
     const [open, setOpen] = React.useState(false);
     const [errmsg, setErrmsg] = React.useState('');
 
-    const dispatch = useDispatch();
-    const { isAuth } = useSelector(userSelect);
+    const dispatch = useAppDispatch();
+    const { isAuth } = useAppSelector(({ user }) => user);
     const navigate = useNavigate();
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [username, setUsername] = React.useState('');
 
     const handleClick = async () => {
-        const auth = getAuth();
+        const auth: any = getAuth();
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password);
-            const resUser = res.user;
-            const user = {
+            const resUser: any = res.user;
+            const user: IUser = {
                 email: resUser.email,
                 token: resUser.accessToken,
                 id: resUser.uid,
@@ -49,7 +48,7 @@ const Register = () => {
             setPassword('');
             updateProfile(auth.currentUser, { displayName: username });
             navigate('/', { replace: true });
-        } catch (error) {
+        } catch (error: any) {
             const errorCode = error.code;
             setOpen(true);
             setErrmsg(errorCode);
@@ -61,16 +60,16 @@ const Register = () => {
     }
 
     const handleClickGoogle = async () => {
-        const user = await googleAuth();
+        const user: IUser = await googleAuth();
         dispatch(setUser(user));
     };
 
     const handleClickGithub = async () => {
-        const user = await githubAuth();
+        const user: IUser = await githubAuth();
         dispatch(setUser(user));
     };
 
-    const handleClose = (event, reason) => {
+    const handleClose = (event: any, reason: any) => {
         if (reason === 'clickaway') {
             return;
         }

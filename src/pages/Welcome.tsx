@@ -1,14 +1,12 @@
 import React from 'react';
 import { Container } from '@mui/system';
-import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-import { userSelect } from '../redux/user/selector';
-
 import plank from '../assets/img/plank.jpg';
+import { useAppSelector } from '../hooks/reduxHooks';
 
 const Welcome = () => {
-    const { isAuth } = useSelector(userSelect);
+    const { isAuth } = useAppSelector(({ user }) => user);
     if (isAuth) {
         return <Navigate to="/home" replace={true} />;
     }

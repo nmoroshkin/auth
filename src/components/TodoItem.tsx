@@ -1,41 +1,49 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { checkTodo, deleteTodo } from '../redux/todos/slice';
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
 
 import { db } from '../firebase';
 
 import { MyCheckBox, MyInput } from './UI';
-import { userSelect } from '../redux/user/selector';
+import { changeTodo } from '../redux/todos/slice';
 import { ListItem, ListItemButton } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { changeTodo } from '../redux/todos/slice';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 
-const TodoItem = React.memo(({ id, todoBody, status, docId }) => {
-    const dispatch = useDispatch();
+interface TodoItemProps {
+    id: number;
+    todoBody: string;
+    status: boolean;
+    docId?: string;
+}
+
+const TodoItem: React.FC<TodoItemProps> = React.memo(({ id, todoBody, status, docId }) => {
+    const dispatch = useAppDispatch();
     const [change, setChange] = React.useState(false);
     const [changeValue, setChangeValue] = React.useState(todoBody);
-    const { email } = useSelector(userSelect);
+    const { email } = useAppSelector(({ user }) => user);
 
     const handleClick = async () => {
         dispatch(deleteTodo(id));
-        await deleteDoc(doc(db, email, docId));
+        if (docId) await deleteDoc(doc<any>(db, email, docId));
     };
 
     const handleCheck = async () => {
         const todo = { id, todoBody, status, docId };
-        await updateDoc(doc(db, email, docId), {
-            docId,
-            status: !status,
-        });
-        dispatch(checkTodo(todo));
+        if (docId) {
+            await updateDoc(doc<any>(db, email, docId), {
+                docId,
+                status: !status,
+            });
+            dispatch(checkTodo(todo));
+        }
     };
 
     const esketitChange = () => {
         setChange(!change);
     };
 
-    const saveChanges = async (e) => {
+    const saveChanges = async (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key !== 'Enter') {
             if (e.key === 'Escape') {
                 setChange(!change);
@@ -43,12 +51,14 @@ const TodoItem = React.memo(({ id, todoBody, status, docId }) => {
             }
             return;
         }
-        await updateDoc(doc(db, email, docId), {
-            docId,
-            todoBody: changeValue,
-        });
-        dispatch(changeTodo({ id, changeValue }));
-        setChange(!change);
+        if (docId) {
+            await updateDoc(doc<any>(db, email, docId), {
+                docId,
+                todoBody: changeValue,
+            });
+            dispatch(changeTodo({ id, changeValue }));
+            setChange(!change);
+        }
     };
 
     return (

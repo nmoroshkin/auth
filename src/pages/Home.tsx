@@ -1,31 +1,29 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { userSelect } from '../redux/user/selector';
-import { useDispatch, useSelector } from 'react-redux';
 import { collection, addDoc } from 'firebase/firestore';
 
 import TodoList from '../components/TodoList';
 import { MyButton, MyInput } from '../components/UI';
 
 import { db } from '../firebase';
-import { fetchTodos } from '../redux/todos/slice';
-import { todoSelect } from '../redux/todos/selector';
-import { setTodo } from '../redux/todos/slice';
 import { Container } from '@mui/material';
 import Loader from '../components/Loader';
+import { setTodo } from '../redux/todos/slice';
+import { fetchTodos } from '../redux/todos/slice';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 
 const Home = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [todoBody, setTodoBody] = React.useState('');
-    const { isAuth, email } = useSelector(userSelect);
-    const { todos } = useSelector(todoSelect);
-    const status = useSelector(({ todos }) => todos.status);
+    const { isAuth, email } = useAppSelector(({ user }) => user);
+    const { todos } = useAppSelector(({ todos }) => todos);
+    const status = useAppSelector(({ todos }) => todos.status);
 
     React.useEffect(() => {
         dispatch(fetchTodos(email));
     }, [dispatch, email]);
 
-    const handleEnterTodo = async (e) => {
+    const handleEnterTodo = async (e: React.KeyboardEvent<HTMLInputElement>) => {
         if ((e.key === 'Enter' || e.target.tagName === 'BUTTON') && todoBody !== '') {
             const todo = {
                 id: Date.now(),

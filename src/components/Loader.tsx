@@ -13,7 +13,7 @@ const Loader = () => {
                     mt: '50px',
                 }}
             >
-                <CircularProgress color="button" />
+                <CircularProgress color="secondary" />
             </Box>
         </div>
     );
