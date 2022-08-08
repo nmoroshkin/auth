@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import React from 'react';
 import { Todo } from '../redux/todos/slice';
 
@@ -9,13 +10,19 @@ interface TodoListProps {
 
 const TodoList: React.FC<TodoListProps> = ({ todos }) => {
     return (
-        <div className="todoList">
+        <Box
+            sx={{
+                height: '70vh',
+                overflow: 'auto',
+            }}
+            className="todoList"
+        >
             {!!todos.length ? (
                 todos.map((todo) => <TodoItem key={todo.id} {...todo} />)
             ) : (
                 <h2>Empty</h2>
             )}
-        </div>
+        </Box>
     );
 };
 

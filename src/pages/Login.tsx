@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Divider, Snackbar } from '@mui/material';
+import { Box, Container, Divider, Snackbar } from '@mui/material';
 import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, User } from 'firebase/auth';
 
@@ -79,7 +79,12 @@ const Login = () => {
     return (
         <Container maxWidth="sm" className="auth">
             <h1>Login</h1>
-            <div className="auth__body">
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                }}
+            >
                 <MyInput
                     type="text"
                     placeholder="email"
@@ -94,7 +99,12 @@ const Login = () => {
                 />
                 <MyButton handleClick={handleClick}>LogIn</MyButton>
                 <Divider sx={{ mb: '20px' }} />
-                <div className="auth__btns">
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }}
+                >
                     <MyButton handleClick={handleClickGoogle}>
                         Continue with <GoogleIcon sx={{ fontSize: '1.8rem', ml: '10px' }} />
                     </MyButton>
@@ -103,8 +113,8 @@ const Login = () => {
                         Continue with
                         <GitHubIcon sx={{ fontSize: '1.8rem', ml: '10px' }} />
                     </MyButton>
-                </div>
-            </div>
+                </Box>
+            </Box>
             <p>
                 don't have an account yet?{' '}
                 <Link to="/register" className="font-effect-neon">

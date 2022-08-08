@@ -18,7 +18,6 @@ const MyButton: React.FC<MyButtonProps> = ({ handleClick, children }) => {
             {children}
         </Button>
     );
-    // return <button onClick={() => handleClick()}>{children}</button>;
 };
 
 export default MyButton;

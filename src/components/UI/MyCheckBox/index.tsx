@@ -17,7 +17,6 @@ const MyCheckBox: React.FC<MyCheckBoxProps> = ({ onCheck, status }) => {
             }}
         />
     );
-    // return <input onChange={() => onCheck()} type="checkbox" checked={status} />;
 };
 
 export default MyCheckBox;

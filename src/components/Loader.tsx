@@ -4,7 +4,13 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 const Loader = () => {
     return (
-        <div className="todoList">
+        <Box
+            sx={{
+                height: '70vh',
+                overflow: 'auto',
+            }}
+            className="todoList"
+        >
             <Box
                 sx={{
                     display: 'flex',
@@ -15,7 +21,7 @@ const Loader = () => {
             >
                 <CircularProgress color="secondary" />
             </Box>
-        </div>
+        </Box>
     );
 };
 

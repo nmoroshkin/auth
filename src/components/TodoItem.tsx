@@ -6,7 +6,7 @@ import { db } from '../firebase';
 
 import { MyCheckBox, MyInput } from './UI';
 import { changeTodo } from '../redux/todos/slice';
-import { ListItem, ListItemButton } from '@mui/material';
+import { Box, ListItem, ListItemButton } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 
@@ -73,7 +73,15 @@ const TodoItem: React.FC<TodoItemProps> = React.memo(({ id, todoBody, status, do
                     alignItems: 'center',
                 }}
             >
-                <div className="task__body">
+                <Box
+                    sx={{
+                        flex: '1',
+                        marginRight: '5px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                    }}
+                    className="task__body"
+                >
                     <MyCheckBox status={status} onCheck={handleCheck} />
                     {!change ? (
                         <span onDoubleClick={esketitChange} className={status ? 'checked' : ''}>
@@ -87,8 +95,8 @@ const TodoItem: React.FC<TodoItemProps> = React.memo(({ id, todoBody, status, do
                             onKeyDown={saveChanges}
                         />
                     )}
-                </div>
-                <div className="delete">
+                </Box>
+                <Box>
                     <HighlightOffIcon
                         className="delete__btn"
                         onClick={handleClick}
@@ -96,7 +104,7 @@ const TodoItem: React.FC<TodoItemProps> = React.memo(({ id, todoBody, status, do
                             color: '#e056fd',
                         }}
                     />
-                </div>
+                </Box>
             </ListItemButton>
         </ListItem>
     );

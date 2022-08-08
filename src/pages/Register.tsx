@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Divider, Snackbar } from '@mui/material';
+import { Box, Container, Divider, Snackbar } from '@mui/material';
 import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
@@ -80,7 +80,12 @@ const Register = () => {
     return (
         <Container maxWidth="sm" className="auth">
             <h1>Register</h1>
-            <div className="auth__body">
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                }}
+            >
                 <MyInput
                     type="text"
                     placeholder="username"
@@ -101,7 +106,7 @@ const Register = () => {
                 />
                 <MyButton handleClick={handleClick}>SignUp</MyButton>
                 <Divider sx={{ mb: '20px' }} />
-                <div className="auth__btns">
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <MyButton handleClick={handleClickGoogle}>
                         Continue with <GoogleIcon sx={{ fontSize: '1.8rem', ml: '10px' }} />
                     </MyButton>
@@ -109,8 +114,8 @@ const Register = () => {
                     <MyButton handleClick={handleClickGithub}>
                         Continue with <GitHubIcon sx={{ fontSize: '1.8rem', ml: '10px' }} />
                     </MyButton>
-                </div>
-            </div>
+                </Box>
+            </Box>
             <p>
                 you already have an account?{' '}
                 <Link to="/login" className="font-effect-neon">

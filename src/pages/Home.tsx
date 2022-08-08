@@ -6,7 +6,7 @@ import TodoList from '../components/TodoList';
 import { MyButton, MyInput } from '../components/UI';
 
 import { db } from '../firebase';
-import { Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import Loader from '../components/Loader';
 import { setTodo } from '../redux/todos/slice';
 import { fetchTodos } from '../redux/todos/slice';
@@ -57,8 +57,23 @@ const Home = () => {
                 justifyContent: 'center',
             }}
         >
-            <div className="container">
-                <div className="inputTodo">
+            <Box
+                sx={{
+                    margin: 'auto',
+                    width: '70%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                }}
+            >
+                <Box
+                    sx={{
+                        alignSelf: 'center',
+                        marginBottom: '10px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                    }}
+                >
                     <MyInput
                         onKeyDown={handleEnterTodo}
                         placeholder="todo..."
@@ -67,9 +82,9 @@ const Home = () => {
                         sx={{ width: '70%' }}
                     />
                     <MyButton handleClick={handleEnterTodo}>add</MyButton>
-                </div>
+                </Box>
                 {status === 'succeed' ? <TodoList todos={todos} /> : <Loader />}
-            </div>
+            </Box>
         </Container>
     );
 };

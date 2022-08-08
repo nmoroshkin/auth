@@ -9,9 +9,7 @@ body {
     padding: 0;
     box-sizing: border-box;
     background-color: #535c68;
-    /* background-color: #576574; */
     color: #e056fd;
-    /* color: #ff9ff3; */
     font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
         'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -23,6 +21,10 @@ a {
     color: inherit;
 }
 
+input {
+    color: #e056fd !important;
+}
+
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
@@ -31,38 +33,8 @@ code {
     height: 100vh;
 }
 
-.container {
-    margin: auto;
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-}
-
-.inputTodo {
-    align-self: center;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    & input {
-        color: #ff9ff3;
-    }
-}
-
-.todoList {
-    height: 70vh;
-    overflow: auto;
-}
-
 .task {
-    // .task__body
-
     &__body {
-        flex: 1;
-        margin-right: 5px;
-        display: inline-flex;
-        align-items: center;
-
         & span {
             font-size: 1.2rem;
         }
@@ -95,11 +67,6 @@ code {
 }
 
 .welcome {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
     &__picture {
         border-radius: 50%;
         overflow: hidden;
@@ -119,24 +86,11 @@ code {
         text-decoration: underline;
         letter-spacing: 2px;
         font-style: italic;
-        // color: darken($color: tomato, $amount: 10);
     }
 
     & p {
         font-size: 1.2rem;
         text-align: center;
-    }
-
-    &__body {
-        // max-width: 800px;
-        // border: 2px solid lightgreen;
-        display: flex;
-        flex-direction: column;
-    }
-    &__btns {
-        display: flex;
-        flex-direction: column;
-        // justify-content: space-between;
     }
 }
 
